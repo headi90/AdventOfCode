@@ -54,12 +54,12 @@ int getNumberFromString(const std::string &in)
         {
             pos = input.find(key);
             if (pos != std::string::npos)
-                input[pos+1] = '0' + value;
+              input[pos + 1] = '0' + value;
         } while (pos != std::string::npos);
     }
 
     std::string digits;
-    std::cout << input << "    ";
+    // std::cout << input << "    ";
     std::copy_if(input.begin(), input.end(), std::back_inserter(digits), ::isdigit);
     std::string number = leaveFirstAndLastChar(digits);
 
@@ -75,7 +75,7 @@ int main()
     {
         auto val = getNumberFromString(line);
         sum += val;
-        std::cout << line << "    " << val << std::endl;
+        // std::cout << line << "    " << val << std::endl;
     }
 
     std::cout << sum << std::endl;
