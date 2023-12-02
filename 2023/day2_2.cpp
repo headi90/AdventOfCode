@@ -9,34 +9,37 @@ constexpr auto MAX_RED = 12;
 constexpr auto MAX_GREEN = 13;
 constexpr auto MAX_BLUE = 14;
 
+// print vector
+template <typename T>
+void printVector(const std::vector<T> &v)
+{
+  std::copy(v.begin(), v.end(), std::ostream_iterator<T>(std::cout, " "));
+}
+
 int func(const std::string line)
 {
   std::cout << line << std::endl;
-  const std::string gameNo = split(split(line, ':')[0], ' ', false)[1];
-  int gameNoInt = stringToInt(gameNo);
 
   const auto gamesBegin = line.find(':') + 2;
   const auto games = line.substr(gamesBegin, line.size() - gamesBegin);
 
   const auto gamesVec = split(games, ';');
+  std::map<std::string, std::vector<int>> m;
   for (const auto &game : gamesVec)
   {
     const auto rounds = split(game, ',');
-    std::map<std::string, int> m;
     for (const auto &round : rounds)
     {
-      // std::cout << round << std::endl;
       const auto cube = split(round, ' ', false);
-      // std::cout << cube[0] << " " << cube[1] << std::endl;
-      m[cube[1]] = stringToInt(cube[0]);
-    }
-    if (m["red"] > MAX_RED || m["green"] > MAX_GREEN || m["blue"] > MAX_BLUE)
-    {
-      return 0;
+      m[cube[1]].push_back(stringToInt(cube[0]));
     }
   }
 
-  return gameNoInt;
+  int maxRed = *std::max_element(m["red"].begin(), m["red"].end());
+  int maxGreen = *std::max_element(m["green"].begin(), m["green"].end());
+  int maxBlue = *std::max_element(m["blue"].begin(), m["blue"].end());
+
+  return maxRed * maxGreen * maxBlue;
 }
 
 int main(int argc, char **argv)
@@ -58,6 +61,7 @@ int main(int argc, char **argv)
     std::cout << result << std::endl;
   }
   std::cout << '\n'
+            << "Answer: "
             << sum << std::endl;
 
   return 0;
