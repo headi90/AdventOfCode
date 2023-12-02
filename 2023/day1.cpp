@@ -1,28 +1,8 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-#include <algorithm> // Added include for std::copy_if
-#include <iterator>  // Added include for std::back_inserter
+#include <algorithm>
+#include <iterator>
 #include <map>
 
-std::vector<std::string> readFile(const std::string &filePath)
-{
-    std::vector<std::string> lines;
-    std::ifstream file(filePath);
-    std::string line;
-
-    if (file.is_open())
-    {
-        while (std::getline(file, line))
-        {
-            lines.push_back(line);
-        }
-        file.close();
-    }
-
-    return lines;
-}
+#include "common.hpp"
 
 std::string leaveFirstAndLastChar(const std::string &input)
 {
@@ -68,14 +48,13 @@ int getNumberFromString(const std::string &in)
 
 int main()
 {
-    auto input = readFile("input.txt");
+  auto input = readFile("input/day1.txt");
 
-    int sum{};
-    for (const auto &line : input)
-    {
-        auto val = getNumberFromString(line);
-        sum += val;
-        // std::cout << line << "    " << val << std::endl;
+  int sum{};
+  for (const auto &line : input) {
+    auto val = getNumberFromString(line);
+    sum += val;
+    // std::cout << line << "    " << val << std::endl;
     }
 
     std::cout << sum << std::endl;
