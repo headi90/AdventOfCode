@@ -9,13 +9,6 @@ constexpr auto MAX_RED = 12;
 constexpr auto MAX_GREEN = 13;
 constexpr auto MAX_BLUE = 14;
 
-// print vector
-template <typename T>
-void printVector(const std::vector<T> &v)
-{
-  std::copy(v.begin(), v.end(), std::ostream_iterator<T>(std::cout, " "));
-}
-
 int func(const std::string line)
 {
   std::cout << line << std::endl;
