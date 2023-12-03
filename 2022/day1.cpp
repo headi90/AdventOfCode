@@ -5,10 +5,27 @@
 
 #include "../common.hpp"
 
-int func(const std::string line)
+int func(std::vector<std::string> lines)
 {
+  // lines.push_back("");
+  std::vector<int> caloriesSums;
+  int sum = 0;
+  for (const auto &l : lines)
+  {
+    if (l.empty())
+    {
+      caloriesSums.push_back(sum);
+      sum = 0;
+    }
+    else
+    {
+      sum += stringToInt(l);
+    }
+  }
+  caloriesSums.push_back(sum);
 
-  return 0;
+  printVector(caloriesSums);
+  return *std::max_element(caloriesSums.begin(), caloriesSums.end());
 }
 
 int main(int argc, char **argv)
@@ -23,10 +40,10 @@ int main(int argc, char **argv)
   auto input = readFile(input_file);
 
   int answer = 0;
-  for (const auto &line : input)
-  {
-    const auto result = func(line);
-  }
+
+  const auto result = func(input);
+
+  answer = result;
 
   std::cout << '\n'
             << "Answer: "
