@@ -3,7 +3,7 @@
 #include <map>
 #include <sstream>
 
-#include "common.hpp"
+#include "../common.hpp"
 
 constexpr auto MAX_RED = 12;
 constexpr auto MAX_GREEN = 13;

@@ -2,7 +2,7 @@
 #include <iterator>
 #include <map>
 
-#include "common.hpp"
+#include "../common.hpp"
 
 std::string leaveFirstAndLastChar(const std::string &input)
 {
