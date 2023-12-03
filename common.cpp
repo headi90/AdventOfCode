@@ -19,6 +19,25 @@ std::vector<std::string> readFile(const std::string &filePath)
   return lines;
 }
 
+std::vector<std::vector<char>> readFileToCharVector(const std::string &filePath)
+{
+  std::vector<std::vector<char>> lines;
+  std::ifstream file(filePath);
+  std::string line;
+
+  if (file.is_open())
+  {
+    while (std::getline(file, line))
+    {
+      std::vector<char> lineVector(line.begin(), line.end());
+      lines.push_back(lineVector);
+    }
+    file.close();
+  }
+
+  return lines;
+}
+
 std::vector<std::string> split(const std::string &s, char seperator, bool skipSpace)
 {
   std::vector<std::string> output;
