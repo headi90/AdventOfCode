@@ -29,12 +29,12 @@ int getNumberFromString(const std::string &in)
     std::string input = in;
     for (const auto &[key, value] : stringToNumber)
     {
-        auto pos = 0;
+        std::size_t pos = 0;
         do
         {
             pos = input.find(key);
             if (pos != std::string::npos)
-              input[pos + 1] = '0' + value;
+              input[pos + 1] = '0' + char(value);
         } while (pos != std::string::npos);
     }
 
@@ -46,9 +46,16 @@ int getNumberFromString(const std::string &in)
     return std::stoi(number);
 }
 
-int main()
+int main(int argc, char **argv)
 {
-  auto input = readFile("input/day1.txt");
+  if (argc != 2)
+  {
+    std::cerr << "Usage: " << argv[0] << " <input file>" << std::endl;
+    return 1;
+  }
+  std::string input_file(argv[1]);
+
+  auto input = readFile(input_file);
 
   int sum{};
   for (const auto &line : input) {
