@@ -5,22 +5,58 @@
 
 #include "../common.hpp"
 
-std::vector<int> gerNumbers(const std::string &s)
+std::vector<int> getNumbers(const std::string &s)
 {
-  std::vector<int> numbers;
+  std::vector<int> numbers{};
 
   std::string number = "";
-  for(auto c : s) {
-    if(isdigit(c)) {
+  for (const auto c : s)
+  {
+    if (isdigit(c))
+    {
       number += c;
-    } else {
-      if(!number.empty()) {
+    }
+    else
+    {
+      if (!number.empty())
+      {
         numbers.push_back(stringToInt(number));
         number = "";
       }
     }
   }
+  if (!number.empty())
+  {
+    numbers.push_back(stringToInt(number));
+    number = "";
+  }
+
   return numbers;
+}
+
+int getPointsFromCard(const std::string &card)
+{
+  std::map<int, int> winingMap{};
+  winingMap.clear();
+  auto numbers = split(card, ':')[1];
+  auto winingMyNumers = split(numbers, '|');
+  auto wining = getNumbers(winingMyNumers[0]);
+  auto my = getNumbers(winingMyNumers[1]);
+
+  for (const auto &num : wining)
+    winingMap[num] = 1;
+
+  for (const auto &num : my)
+    winingMap[num]++;
+
+  int points = 0;
+  for (auto [key, value] : winingMap)
+  {
+    if (value > 1)
+      points++;
+  }
+
+  return points;
 }
 
 int solve1(std::vector<std::string> &input)
@@ -29,41 +65,10 @@ int solve1(std::vector<std::string> &input)
 
   for (auto &line : input)
   {
-    std::map<int, int> winingMap{};
-    winingMap.clear();
-    auto numbers = split(line, ':')[1];
-    auto winingMyNumers = split(numbers, '|');
-    std::cout << "wining: " << winingMyNumers[0] << '|' << std::endl;
-    std::cout << "my: " << winingMyNumers[1] << '|' << std::endl;
-    auto wining = gerNumbers(winingMyNumers[0]);
-    auto my = gerNumbers(winingMyNumers[1]);
+    int points = getPointsFromCard(line);
 
-      std::cout << "wining: ";
-      for(auto &num : wining) {
-        std::cout << num << " ";
-      }
-      std::cout << '|' << std::endl;
-      std::cout << "my: ";
-      for(auto &num : my) {
-        std::cout << num << " ";
-      }
-      std::cout << std::endl;
-    
-
-    for (auto &num : wining)
-    {
-      winingMap[num] = 0;
-    }
-
-    for (auto &num : my)
-    {
-      winingMap[num]++;
-    }
-
-    for(auto [key, value] : winingMap) {
-      std::cout << key << " " << value << std::endl;
-    }
-    std::cout << std::endl;
+    if (points > 0)
+      result += (1 << points - 1);
   }
 
   return result;
