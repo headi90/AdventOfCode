@@ -2,6 +2,7 @@
 #include <iterator>
 #include <map>
 #include <sstream>
+#include <iostream>
 
 #include "../common.hpp"
 
@@ -66,9 +67,39 @@ int solve1(std::vector<std::string> &input)
   for (auto &line : input)
   {
     int points = getPointsFromCard(line);
+    result += points ? (1 << points - 1) : 0;
+  }
 
-    if (points > 0)
-      result += (1 << points - 1);
+  return result;
+}
+
+int getCardNumber(const std::string &card)
+{
+  return stringToInt(split(card, ' ', false)[1]);
+}
+
+int solve2(std::vector<std::string> &input)
+{
+  int result = 0;
+  std::vector<std::tuple<int, int, int>> cardPointsCopies{};
+
+  for (auto it = input.begin(); it != input.end(); ++it)
+  {
+    auto points = getPointsFromCard(*it);
+    auto cardNumber = getCardNumber(*it);
+    cardPointsCopies.push_back(std::make_tuple(cardNumber, points, 1));
+  }
+
+  for (auto it = cardPointsCopies.begin(); it != cardPointsCopies.end(); ++it)
+  {
+    const auto [card, points, copies] = *it;
+    result += copies;
+
+    for (auto it2 = it + 1; it2 != it + points + 1; ++it2)
+    {
+      auto& [card2, points2, copies2] = *it2;
+      copies2 += copies;
+    }
   }
 
   return result;
@@ -87,7 +118,7 @@ int main(int argc, char **argv)
 
   auto answer1 = solve1(input);
 
-  auto answer2 = 0;
+  auto answer2 = solve2(input);
 
   std::cout << '\n'
             << "Answer 1: "
