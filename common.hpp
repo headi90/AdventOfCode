@@ -13,6 +13,15 @@ std::vector<std::string> split(const std::string &s, char seperator, bool skipSp
 int stringToInt(const std::string &s);
 
 template <typename T>
+T stringToNum(const std::string &s)
+{
+  std::stringstream ss(s);
+  T result;
+  ss >> result;
+  return result;
+}
+
+template <typename T>
 void printVector(const std::vector<T> &v)
 {
     std::copy(v.begin(), v.end(), std::ostream_iterator<T>(std::cout, " "));
