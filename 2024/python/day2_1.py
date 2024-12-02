@@ -17,6 +17,14 @@ def fun(file_name):
 
                 if (check(line_vals)):
                     result += 1
+                    continue
+                
+                # Bruteforce - remove value by value from line and check if it's valid
+                for i in range(len(line_vals)):
+                    new_line = line_vals[:i] + line_vals[i+1:]
+                    if (check(new_line)):
+                        result += 1
+                        break
 
             print(f"Result: {result}")
 
@@ -30,4 +38,3 @@ if __name__ == "__main__":
         print("Usage: python day1.py <file_name>")
     else:
         fun(sys.argv[1])
-
