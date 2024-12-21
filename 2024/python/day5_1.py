@@ -6,32 +6,36 @@ def fun(file_name):
             rules_ended = False
             rules = []
             ok_pages = []
+            pages = list(dict())
             for line in file:
                 # print(line)
                 
                 if line == '\n':
                     rules_ended = True
                     continue
-                
-                pages = dict()
+
                 if not rules_ended:
                     tmp = line.strip().split('|')
                     rules.append(tuple(int(x) for x in tmp))
                 else:
                     tmp = line.strip().split(',')
+                    page = dict()
                     for i, v in enumerate(tmp):
-                        pages[int(v)] = i
-                    # print(pages)
-                    nok = False
-                    for first, second in rules:
-                        # print(f"Checking rule {first} < {second}")
-                        # print(f"Pages: {pages}")
-                        if first in pages and second in pages:
-                            if pages[first] > pages[second]:
-                                # print(f"Rule {first} < {second} NOK.")
-                                nok = True
-                    if not nok:
-                        ok_pages.append(list(pages.keys()))
+                        page[int(v)] = i
+                    pages.append(page)
+
+            print(f"Pages: {pages}")
+            for page in pages:
+                nok = False
+                for first, second in rules:
+                    # print(f"Checking rule {first} < {second}")
+                    # print(f"Pages: {pages}")
+                    if first in page and second in page:
+                        if page[first] > page[second]:
+                            # print(f"Rule {first} < {second} NOK.")
+                            nok = True
+                if not nok:
+                    ok_pages.append(list(page.keys()))
                         
             print(f"Ok pages: {ok_pages}")
             
